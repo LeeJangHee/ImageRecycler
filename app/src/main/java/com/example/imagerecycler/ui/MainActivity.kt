@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
+    private val IMAGE_PICK = 123
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,12 +40,12 @@ class MainActivity : AppCompatActivity() {
 
     fun getStorage() {
         val intent: Intent = Intent(Intent.ACTION_PICK)
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
-        startActivityForResult(intent, 1)
+        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE)
+        startActivityForResult(intent, IMAGE_PICK);
     }
 
     private fun requestPermission() {
-        ActivityCompat.requestPermissions(this, REQUEST_PERMISSIONS, 1)
+        ActivityCompat.requestPermissions(this, REQUEST_PERMISSIONS, IMAGE_PICK)
     }
 
     private fun checkPermission(): Boolean {
