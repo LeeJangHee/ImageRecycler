@@ -3,6 +3,7 @@ package com.example.imagerecycler.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.imagerecycler.model.PictureGroupModel
 import com.example.imagerecycler.model.PictureModel
 
 class PictureViewModel: ViewModel() {
@@ -10,11 +11,16 @@ class PictureViewModel: ViewModel() {
     val pictureLiveData: LiveData<List<PictureModel>>
         get() = _pictureLiveData
 
+    var _pictureGroupLiveDate: MutableLiveData<List<PictureGroupModel>> = MutableLiveData()
+    val pictureGroupLiveData: LiveData<List<PictureGroupModel>>
+        get() = _pictureGroupLiveDate
+
     fun setPictureData(newDataList: List<PictureModel>) {
         _pictureLiveData.value = newDataList
     }
 
-    fun getPictureData(): LiveData<List<PictureModel>> {
-        return pictureLiveData
+    fun setPictureGroupData(newGroupItem: List<PictureGroupModel>) {
+        _pictureGroupLiveDate.value = newGroupItem
     }
+
 }
