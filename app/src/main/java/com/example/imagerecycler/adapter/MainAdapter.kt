@@ -1,5 +1,6 @@
 package com.example.imagerecycler.adapter
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.imagerecycler.databinding.ItemPictureBinding
 import com.example.imagerecycler.model.PictureModel
 
-class MainAdapter(pictureGroupModel: List<PictureModel>) :
+class MainAdapter(val activity: Activity, pictureGroupModel: List<PictureModel>) :
     RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private var pictureList: List<PictureModel> = pictureGroupModel
@@ -15,9 +16,11 @@ class MainAdapter(pictureGroupModel: List<PictureModel>) :
     inner class MainViewHolder(private val binding: ItemPictureBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(pictureModel: PictureModel) {
+            val dm = activity.applicationContext.resources.displayMetrics
+
             Glide.with(binding.root)
                 .load(pictureModel.path)
-                .override(200)
+                .override(dm.widthPixels/4)
                 .centerCrop()
                 .into(binding.ivPicture)
             binding.tvId.text = pictureModel.id.toString()

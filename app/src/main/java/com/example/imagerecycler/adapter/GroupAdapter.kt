@@ -1,6 +1,6 @@
 package com.example.imagerecycler.adapter
 
-import android.content.Context
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -9,7 +9,7 @@ import com.example.imagerecycler.adapter.GroupAdapter.GroupViewHolder
 import com.example.imagerecycler.databinding.ItemGroupPictureBinding
 import com.example.imagerecycler.model.PictureGroupModel
 
-class GroupAdapter(val context: Context) : RecyclerView.Adapter<GroupViewHolder>() {
+class GroupAdapter(val activity: Activity) : RecyclerView.Adapter<GroupViewHolder>() {
 
     // 그룹할 리스트
     private var pictureGroupList = emptyList<PictureGroupModel>()
@@ -18,8 +18,8 @@ class GroupAdapter(val context: Context) : RecyclerView.Adapter<GroupViewHolder>
         RecyclerView.ViewHolder(binding.root) {
         fun bind(pictureGroup: PictureGroupModel) {
             binding.tvDate.text = pictureGroup.dateTitle
-            binding.pictureGroupRecycler.adapter = MainAdapter(pictureGroup.pictureList)
-            binding.pictureGroupRecycler.layoutManager = GridLayoutManager(context, 4)
+            binding.pictureGroupRecycler.adapter = MainAdapter(activity, pictureGroup.pictureList)
+            binding.pictureGroupRecycler.layoutManager = GridLayoutManager(activity, 4)
         }
     }
 
