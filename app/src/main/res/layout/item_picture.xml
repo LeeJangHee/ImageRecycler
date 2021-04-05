@@ -10,7 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -23,11 +23,12 @@
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginBottom="4dp"
+            loadPictureImage="@{result.path}"
+            tools:srcCompat="@tools:sample/avatars"
             app:layout_constraintBottom_toTopOf="@+id/tv_id"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_id"
@@ -38,7 +39,8 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
-            android:text="textview"
+            loadString="@{result.id}"
+            tools:text="result.id"
             app:layout_constraintEnd_toEndOf="@+id/iv_picture"
             app:layout_constraintStart_toStartOf="@+id/iv_picture"
             app:layout_constraintTop_toBottomOf="@+id/iv_picture" />

@@ -1,40 +1,32 @@
 package com.example.imagerecycler.adapter
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.imagerecycler.databinding.ItemPictureBinding
 import com.example.imagerecycler.model.PictureModel
 
-class MainAdapter(val activity: Activity, pictureGroupModel: List<PictureModel>) :
+class MainAdapter(pictureGroupModel: List<PictureModel>) :
     RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private var pictureList: List<PictureModel> = pictureGroupModel
 
-    inner class MainViewHolder(private val binding: ItemPictureBinding) :
+    class MainViewHolder(private val binding: ItemPictureBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(pictureModel: PictureModel) {
-            val dm = activity.applicationContext.resources.displayMetrics
 
-            Glide.with(binding.root)
-                .load(pictureModel.path)
-                .override(dm.widthPixels/4)
-                .centerCrop()
-                .into(binding.ivPicture)
-            binding.tvId.text = pictureModel.id.toString()
+        fun bind(pictureModel: PictureModel) {
+
+            with(binding) {
+                result = pictureModel
+                executePendingBindings()
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        return MainViewHolder(
-            ItemPictureBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemPictureBinding.inflate(inflater, parent, false)
+        return MainViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {

@@ -17,9 +17,12 @@ class GroupAdapter(val activity: Activity) : RecyclerView.Adapter<GroupViewHolde
     inner class GroupViewHolder(private val binding: ItemGroupPictureBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(pictureGroup: PictureGroupModel) {
-            binding.tvDate.text = pictureGroup.dateTitle
-            binding.pictureGroupRecycler.adapter = MainAdapter(activity, pictureGroup.pictureList)
-            binding.pictureGroupRecycler.layoutManager = GridLayoutManager(activity, 4)
+
+            with(binding) {
+                tvDate.text = pictureGroup.dateTitle
+                pictureGroupRecycler.adapter = MainAdapter(pictureGroup.pictureList)
+                pictureGroupRecycler.layoutManager = GridLayoutManager(activity, 4)
+            }
         }
     }
 

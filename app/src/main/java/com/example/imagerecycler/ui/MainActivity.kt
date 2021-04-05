@@ -1,17 +1,22 @@
 package com.example.imagerecycler.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.imagerecycler.BuildConfig
 import com.example.imagerecycler.R
 import com.example.imagerecycler.adapter.GroupAdapter
 import com.example.imagerecycler.databinding.ActivityMainBinding
@@ -27,14 +32,17 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var pictureViewModel: PictureViewModel
+    var uri: Uri? = null
 
     private val pictureUtil by lazy { PictureUtil() }
     private val groupAdapter by lazy { GroupAdapter(this) }
     private val REQUEST_PERMISSIONS = arrayOf<String>(
         Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.CAMERA
     )
     private val PICK_IMAGE = 123
+    private val CAMERA = 124
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +54,32 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         readDatabase()
 
+        binding.button.setOnClickListener {
+
+        }
+
+    }
+
+    fun takePicture() {
+        val capturedFile = File(filesDir, "captured.jpg")
+        try {
+            if (capturedFile.exists()) {
+                capturedFile.delete()
+            }
+            capturedFile.createNewFile()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        uri = if (Build.VERSION.SDK_INT >= 24) {
+            FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, capturedFile)
+        } else {
+            Uri.fromFile(capturedFile)
+        }
+
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        startActivityForResult(intent, CAMERA)
     }
 
     private fun setupRecyclerView() {
@@ -120,7 +154,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
-
         }
     }
 
