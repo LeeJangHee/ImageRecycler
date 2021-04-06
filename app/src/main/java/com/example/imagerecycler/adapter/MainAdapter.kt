@@ -37,9 +37,4 @@ class MainAdapter(pictureGroupModel: List<PictureModel>) :
         return pictureList.size
     }
 
-    fun setData(newDataList: List<PictureModel>) {
-        pictureList = newDataList
-        notifyDataSetChanged()
-    }
-
 }

@@ -3,11 +3,13 @@ package com.example.imagerecycler.adapter
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagerecycler.adapter.GroupAdapter.GroupViewHolder
 import com.example.imagerecycler.databinding.ItemGroupPictureBinding
 import com.example.imagerecycler.model.PictureGroupModel
+import com.example.imagerecycler.util.MainDiffUtil
 
 class GroupAdapter(val activity: Activity) : RecyclerView.Adapter<GroupViewHolder>() {
 
@@ -27,6 +29,8 @@ class GroupAdapter(val activity: Activity) : RecyclerView.Adapter<GroupViewHolde
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemGroupPictureBinding.inflate(inflater, parent, false)
         return GroupViewHolder(
             ItemGroupPictureBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -45,7 +49,9 @@ class GroupAdapter(val activity: Activity) : RecyclerView.Adapter<GroupViewHolde
     }
 
     fun setGroup(newGroupList: List<PictureGroupModel>) {
+        val mainDiffUtil = MainDiffUtil(pictureGroupList, newGroupList)
+        val diffUtilResult = DiffUtil.calculateDiff(mainDiffUtil)
         pictureGroupList = newGroupList
-        notifyDataSetChanged()
+        diffUtilResult.dispatchUpdatesTo(this)
     }
 }
